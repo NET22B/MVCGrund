@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using MVCGrund.Data;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<MVCGrundContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MVCGrundContext") ?? throw new InvalidOperationException("Connection string 'MVCGrundContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,6 +27,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Employees}/{action=Index}/{id?}");
 
 app.Run();

@@ -21,6 +21,10 @@ namespace MVCGrund.Controllers
             //var name = viewModel.Name;
             //var salary = viewModel.Salary;
 
+            ViewData["OtherName"] = "Peter"; // <== NEJ
+            ViewBag.Salary = 10000;          // <== NEJ
+
+
             var model = new DemoModel
             {
                 Name = viewModel.Name,
