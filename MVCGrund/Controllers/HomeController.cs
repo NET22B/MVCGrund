@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVCGrund.Models;
 
 namespace MVCGrund.Controllers
 {
@@ -15,10 +16,36 @@ namespace MVCGrund.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Privacy(/*string name, int salary*/ DemoModel viewModel)
+        {
+            //var name = viewModel.Name;
+            //var salary = viewModel.Salary;
+
+            var model = new DemoModel
+            {
+                Name = viewModel.Name,
+                Salary = viewModel.Salary
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult SendToPrivacy()
         {
             return View();
+        }
 
+        [HttpPost]
+        public IActionResult SendToPrivacy(DemoModel viewModel)
+        {
+            var model = new DemoModel
+            {
+                Name = viewModel.Name,
+                Salary = viewModel.Salary
+            };
+
+            return View(model);
         }
 
 
