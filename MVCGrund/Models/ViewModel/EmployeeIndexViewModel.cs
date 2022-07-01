@@ -9,6 +9,7 @@ namespace MVCGrund.Models.ViewModel
         [Display(Name = "Namn")]
         public string Name { get; set; }
 
+        [Display(Name = "Avdelning")]
         public string Department { get; set; }
     }
 }

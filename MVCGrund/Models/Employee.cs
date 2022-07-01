@@ -2,7 +2,7 @@
 
 namespace MVCGrund.Models
 {
-    //Detta är en entitet
+
 #nullable disable
     public class Employee
     {

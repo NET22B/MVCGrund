@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MVCGrund.Data;
 using MVCGrund.Models;
+using MVCGrund.Models.ViewModel;
 
 namespace MVCGrund.Controllers
 {
@@ -26,8 +27,31 @@ namespace MVCGrund.Controllers
 
         public async Task<IActionResult> Index2()
         {
-            //... To be continued
+            var viewModel = await _context.Employee.Select(e => new EmployeeIndexViewModel
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Department = e.Department
+            }).ToListAsync();
+
+            return View(viewModel);
         }
+
+
+        public async Task<IActionResult> Search(string name)
+        {
+            var viewModel = await _context.Employee
+                .Where(e => e.Name.StartsWith(name))
+                .Select(e => new EmployeeIndexViewModel
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Department = e.Department
+                }).ToListAsync();
+
+            return View(nameof(Index2), viewModel);
+        }
+
 
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -90,7 +114,7 @@ namespace MVCGrund.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Salary")] Employee employee)
+        public async Task<IActionResult> Edit(int id, Employee employee)
         {
             if (id != employee.Id)
             {
