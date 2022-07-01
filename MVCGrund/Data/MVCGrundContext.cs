@@ -15,5 +15,7 @@ namespace MVCGrund.Data
         }
 
         public DbSet<MVCGrund.Models.Employee>? Employee { get; set; }
+
+        public DbSet<MVCGrund.Models.Robot>? Robot { get; set; }
     }
 }

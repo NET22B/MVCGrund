@@ -1,98 +1,96 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCGrund.Data;
 using MVCGrund.Models;
 
 namespace MVCGrund.Controllers
 {
-    public class EmployeesController : Controller
+    public class RobotsController : Controller
     {
         private readonly MVCGrundContext _context;
 
-        public EmployeesController(MVCGrundContext context)
+        public RobotsController(MVCGrundContext context)
         {
             _context = context;
         }
 
-        // GET: Employees
+        // GET: Robots
         public async Task<IActionResult> Index()
         {
-
-            return _context.Employee != null ?
-                        View(await _context.Employee.ToListAsync()) :
-                        Problem("Entity set 'MVCGrundContext.Employee'  is null.");
+              return _context.Robot != null ? 
+                          View(await _context.Robot.ToListAsync()) :
+                          Problem("Entity set 'MVCGrundContext.Robot'  is null.");
         }
 
-
-        public async Task<IActionResult> Index2()
-        {
-            //... To be continued
-        }
-
-        // GET: Employees/Details/5
+        // GET: Robots/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Employee == null)
+            if (id == null || _context.Robot == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employee
+            var robot = await _context.Robot
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (robot == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(robot);
         }
 
-        // GET: Employees/Create
+        // GET: Robots/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Employees/Create
+        // POST: Robots/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,Model,RAM")] Robot robot)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
+                _context.Add(robot);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return View(robot);
         }
 
-        // GET: Employees/Edit/5
+        // GET: Robots/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Employee == null)
+            if (id == null || _context.Robot == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employee.FindAsync(id);
-            if (employee == null)
+            var robot = await _context.Robot.FindAsync(id);
+            if (robot == null)
             {
                 return NotFound();
             }
-            return View(employee);
+            return View(robot);
         }
 
-        // POST: Employees/Edit/5
+        // POST: Robots/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Salary")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Model,RAM")] Robot robot)
         {
-            if (id != employee.Id)
+            if (id != robot.Id)
             {
                 return NotFound();
             }
@@ -101,12 +99,12 @@ namespace MVCGrund.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(robot);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.Id))
+                    if (!RobotExists(robot.Id))
                     {
                         return NotFound();
                     }
@@ -117,49 +115,49 @@ namespace MVCGrund.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return View(robot);
         }
 
-        // GET: Employees/Delete/5
+        // GET: Robots/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Employee == null)
+            if (id == null || _context.Robot == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employee
+            var robot = await _context.Robot
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (robot == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(robot);
         }
 
-        // POST: Employees/Delete/5
+        // POST: Robots/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Employee == null)
+            if (_context.Robot == null)
             {
-                return Problem("Entity set 'MVCGrundContext.Employee'  is null.");
+                return Problem("Entity set 'MVCGrundContext.Robot'  is null.");
             }
-            var employee = await _context.Employee.FindAsync(id);
-            if (employee != null)
+            var robot = await _context.Robot.FindAsync(id);
+            if (robot != null)
             {
-                _context.Employee.Remove(employee);
+                _context.Robot.Remove(robot);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int id)
+        private bool RobotExists(int id)
         {
-            return (_context.Employee?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Robot?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
